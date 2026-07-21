@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>App Prototype – All Major Screens</title>
+<style>
+ body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f4f4f4}
+ nav{background:#333;color:white;padding:10px;display:flex;gap:15px}
+ nav a{color:white;text-decoration:none}
+ .screen{display:none;padding:20px;background:white;border-top:1px solid #ccc}
+ .active{display:block}
+ h2{margin-top:0}
+ form{max-width:300px;margin:auto}
+ input[type=text],input[type=password]{width:100%;padding:8px;margin-bottom:10px;box-sizing:border-box}
+ button{padding:8px 12px;background:#28a745;color:white;border:none;cursor:pointer}
+ .chat-window{border:1px solid #ccc;height:300px;padding:5px;overflow-y:auto}
+ .message{margin-bottom:5px}
+ .settings-list{list-style:none;padding:0}
+ .settings-list li{padding:5px 0;border-bottom:1px solid #eee}
+</style>
+<script>
+ function showScreen(id){
+  document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+ }
+ window.onload=function(){showScreen('login')};
+</script>
+</head>
+<body>
+<nav>
+ <a href="#" onclick="showScreen('login')">Login</a>
+ <a href="#" onclick="showScreen('dashboard')">Dashboard</a>
+ <a href="#" onclick="showScreen('chat')">Chat</a>
+ <a href="#" onclick="showScreen('settings')">Settings</a>
+</nav>
+
+<div id="login" class="screen">
+ <h2>Login</h2>
+ <form onsubmit="event.preventDefault(); showScreen('dashboard'); return false;">
+  <input type="text" placeholder="Username" required/>
+  <input type="password" placeholder="Password" required/>
+  <button type="submit">Login</button>
+ </form>
+</div>
+
+<div id="dashboard" class="screen">
+ <h2>Dashboard</h2>
+ <p>Welcome to the dashboard. Use the navigation above to explore.</p>
+ <ul>
+  <li><a href="#" onclick="showScreen('chat')">Go to Chat</a></li>
+  <li><a href="#" onclick="showScreen('settings')">Open Settings</a></li>
+ </ul>
+</div>
+
+<div id="chat" class="screen">
+ <h2>Chat View</h2>
+ <div class="chat-window" id="chatWindow">
+  <div class="message"><strong>Alice:</strong> Hi there!</div>
+  <div class="message"><strong>You:</strong> Hello!</div>
+ </div>
+ <form onsubmit="event.preventDefault(); const msg=document.getElementById('msg').value; if(msg){const div=document.createElement('div');div.className='message';div.innerHTML='<strong>You:</strong> '+msg;document.getElementById('chatWindow').appendChild(div);document.getElementById('msg').value='';}">
+  <input type="text" id="msg" placeholder="Type a message..." required style="width:80%"/>
+  <button type="submit">Send</button>
+ </form>
+</div>
+
+<div id="settings" class="screen">
+ <h2>Settings</h2>
+ <ul class="settings-list">
+  <li>Profile Picture – <a href="#">Change</a></li>
+  <li>Email: user@example.com – <a href="#">Update</a></li>
+  <li>Password – <a href="#">Reset</a></li>
+ </ul>
+</div>
+
+</body>
+</html>
