@@ -348,7 +348,6 @@ body.light{background:#e0e0e0;}
 <div class="tab-bar" id="tabBar">
   <div class="tab active" data-tab="chats">Chats<span class="badge">3</span></div>
   <div class="tab" data-tab="anonymous">Anon</div>
-  <div class="tab" data-tab="games">Games</div>
   <div class="tab" data-tab="upi">UPI</div>
   <div class="tab" data-tab="status">Status</div>
   <div class="tab" data-tab="calls">Calls</div>
@@ -603,14 +602,14 @@ function setConnectivity(mode){
   if(curTab&&curTab.style.display==='none')switchTab('chats');
 }
 function updateConnectivityUI(){
-  const gamesTab=document.querySelector('.tab[data-tab="games"]'),upiTab=document.querySelector('.tab[data-tab="upi"]'),callsTab=document.querySelector('.tab[data-tab="calls"]');
+  const upiTab=document.querySelector('.tab[data-tab="upi"]'),callsTab=document.querySelector('.tab[data-tab="calls"]');
   const statusTab=document.querySelector('.tab[data-tab="status"]'),anonTab=document.querySelector('.tab[data-tab="anonymous"]');
   if(connectivity==='sms'){
-    gamesTab.style.display='';upiTab.style.display='none';callsTab.style.display='none';statusTab.style.display='none';anonTab.style.display='none';
+    upiTab.style.display='none';callsTab.style.display='none';statusTab.style.display='none';anonTab.style.display='none';
   } else if(connectivity==='bt'||connectivity==='wifi'){
-    gamesTab.style.display='';upiTab.style.display='none';callsTab.style.display='none';statusTab.style.display='';anonTab.style.display='none';
+    upiTab.style.display='none';callsTab.style.display='none';statusTab.style.display='';anonTab.style.display='none';
   } else {
-    gamesTab.style.display='';upiTab.style.display='';callsTab.style.display='';statusTab.style.display='';anonTab.style.display='';
+    upiTab.style.display='';callsTab.style.display='';statusTab.style.display='';anonTab.style.display='';
   }
   updateAttachVisibility();updateGamesVisibility();
 }
@@ -898,6 +897,19 @@ function showUpiModal(action){
 }
 
 function focusSearch(){if(activeTab!=='chats')switchTab('chats');setTimeout(()=>document.getElementById('searchInput').focus(),200);}
+
+function openGamesModal(){
+  const overlay=document.getElementById('modalOverlay'),sheet=document.getElementById('modalSheet');overlay.classList.add('active');
+  let h='<h3>🎮 Games</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
+  const games=[{icon:'♟️',name:'Chess',cat:'multiplayer turn'},{icon:'🎲',name:'Ludo',cat:'multiplayer turn'},{icon:'🔫',name:'Mini Militia',cat:'multiplayer'},{icon:'🃏',name:'Cards',cat:'multiplayer turn'},{icon:'🍬',name:'Candy Crush',cat:'solo'},{icon:'🏃',name:'Subway Surfer',cat:'solo'},{icon:'🎯',name:'Carrom',cat:'multiplayer turn'},{icon:'🏏',name:'Cricket',cat:'multiplayer'}];
+  games.forEach(g=>{
+    let hide=false;
+    if(connectivity==='sms'&&['Mini Militia','Cards','Carrom','Cricket'].includes(g.name))hide=true;
+    h+=`<div style="${hide?'display:none;':''}background:var(--surface2);border-radius:12px;padding:12px;text-align:center;cursor:pointer;" onclick="closeModal();toast('${g.icon} Launching ${g.name}...')"><div style="font-size:2rem;">${g.icon}</div><div style="font-size:.75rem;font-weight:600;color:var(--text);">${g.name}</div><button style="margin-top:6px;background:var(--accent);color:#000;border:none;padding:4px 12px;border-radius:10px;font-size:.65rem;font-weight:700;cursor:pointer;">Play</button></div>`;
+  });
+  h+='</div><div class="close-btn" onclick="closeModal()">Cancel</div>';
+  sheet.innerHTML=h;
+}
 
 function showModal(type){
   const overlay=document.getElementById('modalOverlay'),sheet=document.getElementById('modalSheet');overlay.classList.add('active');
