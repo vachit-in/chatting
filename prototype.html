@@ -587,7 +587,7 @@ const slashCommands=[
 ];
 
 function toggleTheme(){isLight=!isLight;document.getElementById('bodyEl').classList.toggle('light',isLight);document.getElementById('themeBtn').textContent=isLight?'☀️':'🌙';localStorage.setItem('vachit-theme',isLight?'light':'dark');}
-if(localStorage.getItem('vachit-theme')==='light'){isLight=true;document.getElementById('bodyEl').classList.add('light');document.getElementById('themeBtn').textContent='☀️';}
+if(localStorage.getItem('vachit-theme')!=='dark'){isLight=true;document.getElementById('bodyEl').classList.add('light');document.getElementById('themeBtn').textContent='☀️';}
 
 function toggleConnMenu(e){e.stopPropagation();document.getElementById('connMenu').classList.toggle('active');}
 document.addEventListener('click',()=>document.getElementById('connMenu').classList.remove('active'));
